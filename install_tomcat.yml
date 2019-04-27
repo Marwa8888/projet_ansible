@@ -1,0 +1,32 @@
+---
+- hosts: app-server
+  become: yes
+  tasks:
+  - name: tomcat | group add
+    group: name=tomcat
+    
+  - name: tomcat | user add
+    user: name=tomcat group=tomcat home=/opt/tomcat createhome=no 
+  
+    #télécharger l'archive de tomcat
+  - name: tomcat | binary download
+    get_url: url="http://mirror.nus.edu.sg/apache/tomcat/tomcat-8/v8.0.26/bin/apache-tomcat-8.0.26.tar.gz"  dest="/tmp"
+   
+
+  - name: tomcat  | extract archive
+    #unarchive le dossier .tar
+    shell: "tar xzf /tmp/apache-tomcat-8.0.26.tar.gz -C /opt"
+
+    #création d'un lien symbolique de tomcat
+  - name: tomcat  | symlink install directory
+    file: src="/opt/apache-tomcat-8.0.26" path="/opt/tomcat8" state=link
+  
+
+  - name: tomcat  |   change ownership of target installation
+    file: path="/opt/tomcat8" owner=tomcat group=tomcat state=directory recurse=yes
+    
+    #activer le service tomcat
+  - name: tomcat  | systemd
+    template: src=tomcat.service.j2 dest=/etc/systemd/system/tomcat.service
+    notify: tomcat restart
+   
