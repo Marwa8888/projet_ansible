@@ -96,4 +96,13 @@ config.vm.box = "geerlingguy/centos7"
     ansible.playbook = "install_db.yml"
     end
    end 
+  # Database server
+  config.vm.define "prom-server" do |prom|
+    prom.vm.hostname = "devops-prom.dev"
+    # static ip address
+    prom.vm.network :private_network, ip: "192.168.60.4"
+    #Provisioning configuration for Ansible
+    #prom.vm.provision "ansible" do |ansible|
+    #ansible.playbook = "install_prom.yml"
+   end 
 end

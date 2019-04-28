@@ -1,0 +1,11 @@
+
+
+- name: install apach
+  hosts: web-server
+  import_playbook: install_apach.yml
+- name: install  tomcat
+  import_playbook: install_tomcat.yml
+- name: install db
+  import_playbook: install_db.yml
+
+
