@@ -73,6 +73,7 @@ config.vm.box = "geerlingguy/centos7"
     web.vm.network :private_network, ip: "192.168.60.1"
     #Provisioning configuration for Ansible
     web.vm.provision "ansible" do |ansible|
+    ansible.inventory_path = "inventory"
     ansible.playbook = "install_apach.yml"
     end
   end
@@ -83,6 +84,7 @@ config.vm.box = "geerlingguy/centos7"
     app.vm.network :private_network, ip: "192.168.60.2"
     #Provisioning configuration for Ansible
     app.vm.provision "ansible" do |ansible|
+    ansible.inventory_path = "inventory"
     ansible.playbook = "install_tomcat.yml"
     end
   end 
@@ -93,6 +95,7 @@ config.vm.box = "geerlingguy/centos7"
     db.vm.network :private_network, ip: "192.168.60.3"
     #Provisioning configuration for Ansible
     db.vm.provision "ansible" do |ansible|
+    ansible.inventory_path = "inventory"
     ansible.playbook = "install_db.yml"
     end
    end 
